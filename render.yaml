@@ -22,7 +22,7 @@ services:
         sync: false
 
   # ─── Frontend: Azure (Mobile) ───────────────────────
-  - type: static
+  - type: static_site
     name: bloodchain-azure
     env: static
     rootDir: azure
@@ -40,7 +40,7 @@ services:
         sync: false
 
   # ─── Frontend: Azure-Clone (Desktop) ────────────────
-  - type: static
+  - type: static_site
     name: bloodchain-azure-clone
     env: static
     rootDir: azure-clone
@@ -58,7 +58,7 @@ services:
         sync: false
 
   # ─── Frontend: High Command (Admin) ─────────────────
-  - type: static
+  - type: static_site
     name: bloodchain-high-command
     env: static
     rootDir: high-command
@@ -72,7 +72,7 @@ services:
           property: host
 
   # ─── Frontend: Mars Lab ─────────────────────────────
-  - type: static
+  - type: static_site
     name: bloodchain-mars-lab
     env: static
     rootDir: mars-lab
@@ -86,7 +86,7 @@ services:
           property: host
 
   # ─── Frontend: Scyther ──────────────────────────────
-  - type: static
+  - type: static_site
     name: bloodchain-scyther
     env: static
     rootDir: scyther
@@ -100,7 +100,7 @@ services:
           property: host
 
   # ─── Frontend: Voyager ──────────────────────────────
-  - type: static
+  - type: static_site
     name: bloodchain-voyager
     env: static
     rootDir: voyager
@@ -114,7 +114,7 @@ services:
           property: host
 
   # ─── Demo: Constellation Hub ───────────────────────
-  - type: static
+  - type: static_site
     name: bloodchain-demo-hub
     env: static
     rootDir: demo-hub
