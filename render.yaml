@@ -5,7 +5,8 @@ services:
     env: node
     plan: free
     rootDir: bloodchain-core
-    buildCommand: npm install --legacy-peer-deps && npm run build
+    installCommand: npm install --legacy-peer-deps
+    buildCommand: npm run build
     startCommand: npm run start
     envVars:
       - key: NODE_ENV
@@ -30,7 +31,8 @@ services:
     name: bloodchain-azure
     env: static
     rootDir: azure
-    buildCommand: npm install --legacy-peer-deps && npm run build
+    installCommand: npm install --legacy-peer-deps
+    buildCommand: npm run build
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
@@ -48,7 +50,8 @@ services:
     name: bloodchain-azure-clone
     env: static
     rootDir: azure-clone
-    buildCommand: npm install --legacy-peer-deps && npm run build
+    installCommand: npm install --legacy-peer-deps
+    buildCommand: npm run build
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
@@ -66,7 +69,8 @@ services:
     name: bloodchain-high-command
     env: static
     rootDir: high-command
-    buildCommand: npm install --legacy-peer-deps && npm run build
+    installCommand: npm install --legacy-peer-deps
+    buildCommand: npm run build
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
@@ -84,7 +88,8 @@ services:
     name: bloodchain-mars-lab
     env: static
     rootDir: mars-lab
-    buildCommand: npm install --legacy-peer-deps && npm run build
+    installCommand: npm install --legacy-peer-deps
+    buildCommand: npm run build
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
@@ -102,7 +107,8 @@ services:
     name: bloodchain-scyther
     env: static
     rootDir: scyther
-    buildCommand: npm install --legacy-peer-deps && npm run build
+    installCommand: npm install --legacy-peer-deps
+    buildCommand: npm run build
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
@@ -120,7 +126,8 @@ services:
     name: bloodchain-voyager
     env: static
     rootDir: voyager
-    buildCommand: npm install --legacy-peer-deps && npm run build
+    installCommand: npm install --legacy-peer-deps
+    buildCommand: npm run build
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
@@ -138,7 +145,8 @@ services:
     name: bloodchain-demo-hub
     env: static
     rootDir: demo-hub
-    buildCommand: npm install --legacy-peer-deps && npm run build
+    installCommand: npm install --legacy-peer-deps
+    buildCommand: npm run build
     staticPublishPath: dist
     envVars:
       - key: VITE_HIGH_COMMAND_URL
