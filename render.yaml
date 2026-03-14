@@ -34,12 +34,14 @@ services:
     installCommand: npm install --legacy-peer-deps
     buildCommand: npm run build
     staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
     envVars:
       - key: VITE_API_URL
-        fromService:
-          type: web
-          name: bloodchain-core
-          property: host
+        # Using interpolation for absolute URL
+        value: https://${bloodchain-core_host}/api/v1
       - key: VITE_SUPABASE_URL
         sync: false
       - key: VITE_SUPABASE_ANON_KEY
@@ -53,12 +55,13 @@ services:
     installCommand: npm install --legacy-peer-deps
     buildCommand: npm run build
     staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
     envVars:
       - key: VITE_API_URL
-        fromService:
-          type: web
-          name: bloodchain-core
-          property: host
+        value: https://${bloodchain-core_host}/api/v1
       - key: VITE_SUPABASE_URL
         sync: false
       - key: VITE_SUPABASE_ANON_KEY
@@ -72,12 +75,13 @@ services:
     installCommand: npm install --legacy-peer-deps
     buildCommand: npm run build
     staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
     envVars:
       - key: VITE_API_URL
-        fromService:
-          type: web
-          name: bloodchain-core
-          property: host
+        value: https://${bloodchain-core_host}/api/v1
       - key: VITE_SUPABASE_URL
         sync: false
       - key: VITE_SUPABASE_ANON_KEY
@@ -91,12 +95,13 @@ services:
     installCommand: npm install --legacy-peer-deps
     buildCommand: npm run build
     staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
     envVars:
       - key: VITE_API_URL
-        fromService:
-          type: web
-          name: bloodchain-core
-          property: host
+        value: https://${bloodchain-core_host}/api/v1
       - key: VITE_SUPABASE_URL
         sync: false
       - key: VITE_SUPABASE_ANON_KEY
@@ -110,12 +115,13 @@ services:
     installCommand: npm install --legacy-peer-deps
     buildCommand: npm run build
     staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
     envVars:
       - key: VITE_API_URL
-        fromService:
-          type: web
-          name: bloodchain-core
-          property: host
+        value: https://${bloodchain-core_host}/api/v1
       - key: VITE_SUPABASE_URL
         sync: false
       - key: VITE_SUPABASE_ANON_KEY
@@ -129,12 +135,13 @@ services:
     installCommand: npm install --legacy-peer-deps
     buildCommand: npm run build
     staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
     envVars:
       - key: VITE_API_URL
-        fromService:
-          type: web
-          name: bloodchain-core
-          property: host
+        value: https://${bloodchain-core_host}/api/v1
       - key: VITE_SUPABASE_URL
         sync: false
       - key: VITE_SUPABASE_ANON_KEY
@@ -148,32 +155,21 @@ services:
     installCommand: npm install --legacy-peer-deps
     buildCommand: npm run build
     staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
     envVars:
       - key: VITE_HIGH_COMMAND_URL
-        fromService:
-          type: web
-          name: bloodchain-high-command
-          property: host
+        value: https://${bloodchain-high-command_host}
       - key: VITE_MARS_LAB_URL
-        fromService:
-          type: web
-          name: bloodchain-mars-lab
-          property: host
+        value: https://${bloodchain-mars-lab_host}
       - key: VITE_VOYAGER_URL
-        fromService:
-          type: web
-          name: bloodchain-voyager
-          property: host
+        value: https://${bloodchain-voyager_host}
       - key: VITE_SCYTHER_URL
-        fromService:
-          type: web
-          name: bloodchain-scyther
-          property: host
+        value: https://${bloodchain-scyther_host}
       - key: VITE_AZURE_URL
-        fromService:
-          type: web
-          name: bloodchain-azure
-          property: host
+        value: https://${bloodchain-azure_host}
 
 databases:
   - name: bloodchain-db

@@ -5,12 +5,21 @@ import AppCard from './AppCard'
 // PRODUCTION URLS — Replace with live Render/Vercel URLs
 // after deployment. Demo will use placeholders if not set.
 // ──────────────────────────────────────────────────────────
+// Utility to ensure URLs have a protocol (Render only provides the host string)
+const normalizeUrl = (url) => {
+  if (!url) return '';
+  if (url.startsWith('http')) return url;
+  // If it's localhost or an IP, use http, otherwise https
+  const protocol = (url.includes('localhost') || url.includes('127.0.0.1')) ? 'http://' : 'https://';
+  return protocol + url;
+}
+
 const URLS = {
-  highCommand: import.meta.env.VITE_HIGH_COMMAND_URL  || 'http://localhost:5173',
-  marsLab:     import.meta.env.VITE_MARS_LAB_URL      || 'http://localhost:5174',
-  voyager:     import.meta.env.VITE_VOYAGER_URL        || 'http://localhost:5175',
-  scyther:     import.meta.env.VITE_SCYTHER_URL        || 'http://localhost:5176',
-  azure:       import.meta.env.VITE_AZURE_URL          || 'http://localhost:5177',
+  highCommand: normalizeUrl(import.meta.env.VITE_HIGH_COMMAND_URL  || 'http://localhost:5173'),
+  marsLab:     normalizeUrl(import.meta.env.VITE_MARS_LAB_URL      || 'http://localhost:5174'),
+  voyager:     normalizeUrl(import.meta.env.VITE_VOYAGER_URL        || 'http://localhost:5175'),
+  scyther:     normalizeUrl(import.meta.env.VITE_SCYTHER_URL        || 'http://localhost:5176'),
+  azure:       normalizeUrl(import.meta.env.VITE_AZURE_URL          || 'http://localhost:5177'),
 }
 
 const APPS = [

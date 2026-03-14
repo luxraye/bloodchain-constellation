@@ -1,8 +1,15 @@
 import axios from 'axios'
 import { supabase } from './supabase.js'
 
+const normalizeUrl = (url) => {
+  if (!url) return '';
+  if (url.startsWith('http')) return url;
+  const protocol = (url.includes('localhost') || url.includes('127.0.0.1')) ? 'http://' : 'https://';
+  return protocol + url;
+};
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:4000/api/v1',
+  baseURL: normalizeUrl(import.meta.env.VITE_API_URL || 'http://localhost:4000/api/v1'),
   headers: { 'Content-Type': 'application/json' },
 })
 

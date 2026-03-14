@@ -141,7 +141,14 @@ export async function processOutbox() {
 
 // ─── Public API ───────────────────────────────────────────────────────────────
 
-const BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000/api/v1'
+const normalizeUrl = (url) => {
+    if (!url) return '';
+    if (url.startsWith('http')) return url;
+    const protocol = (url.includes('localhost') || url.includes('127.0.0.1')) ? 'http://' : 'https://';
+    return protocol + url;
+};
+
+const BASE = normalizeUrl(import.meta.env.VITE_API_URL || 'http://localhost:4000/api/v1')
 
 async function authFetch(path, options = {}) {
     // Get the supabase token from localStorage (Supabase stores it under sb-*-auth-token)
