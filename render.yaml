@@ -22,12 +22,12 @@ services:
         sync: false
 
   # ─── Frontend: Azure (Mobile) ───────────────────────
-  - type: static_site
+  - type: web
     name: bloodchain-azure
     env: static
     rootDir: azure
     buildCommand: npm install && npm run build
-    publishDir: dist
+    staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
         fromService:
@@ -40,12 +40,12 @@ services:
         sync: false
 
   # ─── Frontend: Azure-Clone (Desktop) ────────────────
-  - type: static_site
+  - type: web
     name: bloodchain-azure-clone
     env: static
     rootDir: azure-clone
     buildCommand: npm install && npm run build
-    publishDir: dist
+    staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
         fromService:
@@ -58,12 +58,12 @@ services:
         sync: false
 
   # ─── Frontend: High Command (Admin) ─────────────────
-  - type: static_site
+  - type: web
     name: bloodchain-high-command
     env: static
     rootDir: high-command
     buildCommand: npm install && npm run build
-    publishDir: dist
+    staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
         fromService:
@@ -72,12 +72,12 @@ services:
           property: host
 
   # ─── Frontend: Mars Lab ─────────────────────────────
-  - type: static_site
+  - type: web
     name: bloodchain-mars-lab
     env: static
     rootDir: mars-lab
     buildCommand: npm install && npm run build
-    publishDir: dist
+    staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
         fromService:
@@ -86,12 +86,12 @@ services:
           property: host
 
   # ─── Frontend: Scyther ──────────────────────────────
-  - type: static_site
+  - type: web
     name: bloodchain-scyther
     env: static
     rootDir: scyther
     buildCommand: npm install && npm run build
-    publishDir: dist
+    staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
         fromService:
@@ -100,12 +100,12 @@ services:
           property: host
 
   # ─── Frontend: Voyager ──────────────────────────────
-  - type: static_site
+  - type: web
     name: bloodchain-voyager
     env: static
     rootDir: voyager
     buildCommand: npm install && npm run build
-    publishDir: dist
+    staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
         fromService:
@@ -114,36 +114,36 @@ services:
           property: host
 
   # ─── Demo: Constellation Hub ───────────────────────
-  - type: static_site
+  - type: web
     name: bloodchain-demo-hub
     env: static
     rootDir: demo-hub
     buildCommand: npm install && npm run build
-    publishDir: dist
+    staticPublishPath: dist
     envVars:
       - key: VITE_HIGH_COMMAND_URL
         fromService:
-          type: static_site
+          type: web
           name: bloodchain-high-command
           property: host
       - key: VITE_MARS_LAB_URL
         fromService:
-          type: static_site
+          type: web
           name: bloodchain-mars-lab
           property: host
       - key: VITE_VOYAGER_URL
         fromService:
-          type: static_site
+          type: web
           name: bloodchain-voyager
           property: host
       - key: VITE_SCYTHER_URL
         fromService:
-          type: static_site
+          type: web
           name: bloodchain-scyther
           property: host
       - key: VITE_AZURE_URL
         fromService:
-          type: static_site
+          type: web
           name: bloodchain-azure
           property: host
 
