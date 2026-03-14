@@ -5,7 +5,7 @@ services:
     env: node
     plan: free
     rootDir: bloodchain-core
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --legacy-peer-deps && npm run build
     startCommand: npm run start
     envVars:
       - key: NODE_ENV
@@ -30,7 +30,7 @@ services:
     name: bloodchain-azure
     env: static
     rootDir: azure
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --legacy-peer-deps && npm run build
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
@@ -48,7 +48,7 @@ services:
     name: bloodchain-azure-clone
     env: static
     rootDir: azure-clone
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --legacy-peer-deps && npm run build
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
@@ -66,7 +66,7 @@ services:
     name: bloodchain-high-command
     env: static
     rootDir: high-command
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --legacy-peer-deps && npm run build
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
@@ -74,13 +74,17 @@ services:
           type: web
           name: bloodchain-core
           property: host
+      - key: VITE_SUPABASE_URL
+        sync: false
+      - key: VITE_SUPABASE_ANON_KEY
+        sync: false
 
   # ─── Frontend: Mars Lab ─────────────────────────────
   - type: web
     name: bloodchain-mars-lab
     env: static
     rootDir: mars-lab
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --legacy-peer-deps && npm run build
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
@@ -88,13 +92,17 @@ services:
           type: web
           name: bloodchain-core
           property: host
+      - key: VITE_SUPABASE_URL
+        sync: false
+      - key: VITE_SUPABASE_ANON_KEY
+        sync: false
 
   # ─── Frontend: Scyther ──────────────────────────────
   - type: web
     name: bloodchain-scyther
     env: static
     rootDir: scyther
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --legacy-peer-deps && npm run build
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
@@ -102,13 +110,17 @@ services:
           type: web
           name: bloodchain-core
           property: host
+      - key: VITE_SUPABASE_URL
+        sync: false
+      - key: VITE_SUPABASE_ANON_KEY
+        sync: false
 
   # ─── Frontend: Voyager ──────────────────────────────
   - type: web
     name: bloodchain-voyager
     env: static
     rootDir: voyager
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --legacy-peer-deps && npm run build
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
@@ -116,13 +128,17 @@ services:
           type: web
           name: bloodchain-core
           property: host
+      - key: VITE_SUPABASE_URL
+        sync: false
+      - key: VITE_SUPABASE_ANON_KEY
+        sync: false
 
   # ─── Demo: Constellation Hub ───────────────────────
   - type: web
     name: bloodchain-demo-hub
     env: static
     rootDir: demo-hub
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --legacy-peer-deps && npm run build
     staticPublishPath: dist
     envVars:
       - key: VITE_HIGH_COMMAND_URL
