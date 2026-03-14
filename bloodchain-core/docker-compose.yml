@@ -1,0 +1,31 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: bloodchain-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: mmamoleane**
+      POSTGRES_DB: bloodchain_core
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # --- THE AUTHENTICATION SERVER ---
+  # keycloak_data persists realms/clients/users so they survive container restarts.
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.1
+    container_name: bloodchain-auth
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    command: start-dev
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+      - ../keycloak-theme/bloodchain:/opt/keycloak/themes/bloodchain
+
+volumes:
+  pgdata:
+  keycloak_data:

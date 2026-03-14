@@ -1,0 +1,154 @@
+services:
+  # ─── Backend: Bloodchain Core ───────────────────────
+  - type: web
+    name: bloodchain-core
+    env: node
+    plan: free
+    rootDir: bloodchain-core
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        fromDatabase:
+          name: bloodchain-db
+          property: connectionString
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_JWT_SECRET
+        sync: false
+
+  # ─── Frontend: Azure (Mobile) ───────────────────────
+  - type: static
+    name: bloodchain-azure
+    env: static
+    rootDir: azure
+    buildCommand: npm install && npm run build
+    publishDir: dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: bloodchain-core
+          property: host
+      - key: VITE_SUPABASE_URL
+        sync: false
+      - key: VITE_SUPABASE_ANON_KEY
+        sync: false
+
+  # ─── Frontend: Azure-Clone (Desktop) ────────────────
+  - type: static
+    name: bloodchain-azure-clone
+    env: static
+    rootDir: azure-clone
+    buildCommand: npm install && npm run build
+    publishDir: dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: bloodchain-core
+          property: host
+      - key: VITE_SUPABASE_URL
+        sync: false
+      - key: VITE_SUPABASE_ANON_KEY
+        sync: false
+
+  # ─── Frontend: High Command (Admin) ─────────────────
+  - type: static
+    name: bloodchain-high-command
+    env: static
+    rootDir: high-command
+    buildCommand: npm install && npm run build
+    publishDir: dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: bloodchain-core
+          property: host
+
+  # ─── Frontend: Mars Lab ─────────────────────────────
+  - type: static
+    name: bloodchain-mars-lab
+    env: static
+    rootDir: mars-lab
+    buildCommand: npm install && npm run build
+    publishDir: dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: bloodchain-core
+          property: host
+
+  # ─── Frontend: Scyther ──────────────────────────────
+  - type: static
+    name: bloodchain-scyther
+    env: static
+    rootDir: scyther
+    buildCommand: npm install && npm run build
+    publishDir: dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: bloodchain-core
+          property: host
+
+  # ─── Frontend: Voyager ──────────────────────────────
+  - type: static
+    name: bloodchain-voyager
+    env: static
+    rootDir: voyager
+    buildCommand: npm install && npm run build
+    publishDir: dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: bloodchain-core
+          property: host
+
+  # ─── Demo: Constellation Hub ───────────────────────
+  - type: static
+    name: bloodchain-demo-hub
+    env: static
+    rootDir: demo-hub
+    buildCommand: npm install && npm run build
+    publishDir: dist
+    envVars:
+      - key: VITE_HIGH_COMMAND_URL
+        fromService:
+          type: static
+          name: bloodchain-high-command
+          property: host
+      - key: VITE_MARS_LAB_URL
+        fromService:
+          type: static
+          name: bloodchain-mars-lab
+          property: host
+      - key: VITE_VOYAGER_URL
+        fromService:
+          type: static
+          name: bloodchain-voyager
+          property: host
+      - key: VITE_SCYTHER_URL
+        fromService:
+          type: static
+          name: bloodchain-scyther
+          property: host
+      - key: VITE_AZURE_URL
+        fromService:
+          type: static
+          name: bloodchain-azure
+          property: host
+
+databases:
+  - name: bloodchain-db
+    plan: free
+    databaseName: bloodchain
+    user: bloodchain_user
