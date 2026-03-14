@@ -123,27 +123,27 @@ services:
     envVars:
       - key: VITE_HIGH_COMMAND_URL
         fromService:
-          type: static
+          type: static_site
           name: bloodchain-high-command
           property: host
       - key: VITE_MARS_LAB_URL
         fromService:
-          type: static
+          type: static_site
           name: bloodchain-mars-lab
           property: host
       - key: VITE_VOYAGER_URL
         fromService:
-          type: static
+          type: static_site
           name: bloodchain-voyager
           property: host
       - key: VITE_SCYTHER_URL
         fromService:
-          type: static
+          type: static_site
           name: bloodchain-scyther
           property: host
       - key: VITE_AZURE_URL
         fromService:
-          type: static
+          type: static_site
           name: bloodchain-azure
           property: host
 
