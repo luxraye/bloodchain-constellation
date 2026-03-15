@@ -13,11 +13,25 @@ const app = express();
 
 // ─── Global Middleware ───────────────────────────────
 
-const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || "*";
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:5175',
+  'http://localhost:5176',
+  'http://localhost:5177',
+  /\.onrender\.com$/, // Accepts any Render frontend dynamically
+  /\.vercel\.app$/   // If you end up using Vercel
+];
+
 app.use(cors({
-    origin: allowedOrigins,
-    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"]
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.some(o => typeof o === 'string' ? o === origin : o.test(origin))) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS blocked origin: ' + origin));
+    }
+  },
+  credentials: true
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

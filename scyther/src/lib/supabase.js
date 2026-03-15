@@ -3,10 +3,13 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
-console.log('[Supabase] Initializing with URL:', supabaseUrl ? 'SET' : 'MISSING');
-
 if (!supabaseUrl || !supabaseAnonKey) {
-    console.warn('[Supabase] VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY not set — auth will not work until .env.local is populated.')
+  console.error("CRITICAL ERROR: Supabase environment variables are missing.");
+  // Prevent fatal crash by providing a dummy client if vars are missing, 
+  // allowing the UI to render and display connection errors gracefully.
 }
 
-export const supabase = createClient(supabaseUrl ?? '', supabaseAnonKey ?? '')
+export const supabase = createClient(
+  supabaseUrl || 'https://placeholder.supabase.co',
+  supabaseAnonKey || 'placeholder-key'
+)
