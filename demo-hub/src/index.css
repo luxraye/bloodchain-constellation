@@ -14,6 +14,7 @@ body {
 /* ── iPhone 15 Pro CSS Frame ── */
 .iphone-frame {
   position: relative;
+  display: inline-block;
   background: #1a1a1a;
   border-radius: 54px;
   padding: 14px;
@@ -56,6 +57,7 @@ body {
 /* ── iPad CSS Frame ── */
 .ipad-frame {
   position: relative;
+  display: inline-block;
   background: #1c1c1e;
   border-radius: 22px;
   padding: 20px 24px;

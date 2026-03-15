@@ -9,9 +9,16 @@ import AppCard from './AppCard'
 const normalizeUrl = (url) => {
   if (!url) return '';
   if (url.startsWith('http')) return url;
-  // If it's localhost or an IP, use http, otherwise https
-  const protocol = (url.includes('localhost') || url.includes('127.0.0.1')) ? 'http://' : 'https://';
-  return protocol + url;
+  
+  // If it's just a hostname without a dot (e.g. "bloodchain-scyther"),
+  // append the default Render domain.
+  let targetUrl = url;
+  if (!url.includes('.') && !url.includes('localhost')) {
+    targetUrl = `${url}.onrender.com`;
+  }
+
+  const protocol = (targetUrl.includes('localhost') || targetUrl.includes('127.0.0.1')) ? 'http://' : 'https://';
+  return protocol + targetUrl;
 }
 
 const URLS = {

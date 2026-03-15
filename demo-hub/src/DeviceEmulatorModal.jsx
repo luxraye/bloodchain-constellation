@@ -8,7 +8,7 @@ export default function DeviceEmulatorModal({ isOpen, onClose, app }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4"
+      className="fixed inset-0 z-50 flex flex-col items-center bg-black/80 backdrop-blur-md p-4 overflow-y-auto"
       onClick={onClose}
     >
       <div
@@ -16,7 +16,7 @@ export default function DeviceEmulatorModal({ isOpen, onClose, app }) {
         onClick={e => e.stopPropagation()}
       >
         {/* App Label */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 bg-oled/60 backdrop-blur-xl px-6 py-3 rounded-2xl border border-white/5 sticky top-0 z-20">
           <div
             className="flex h-9 w-9 items-center justify-center rounded-xl text-lg font-bold"
             style={{ background: app.accentColor + '22', color: app.accentColor }}
@@ -29,7 +29,7 @@ export default function DeviceEmulatorModal({ isOpen, onClose, app }) {
           </div>
           <button
             onClick={onClose}
-            className="ml-8 text-slate-600 hover:text-white transition text-xl"
+            className="ml-8 w-8 h-8 flex items-center justify-center rounded-full bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 transition text-lg"
           >
             ✕
           </button>
