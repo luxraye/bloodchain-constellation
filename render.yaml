@@ -34,12 +34,13 @@ services:
     installCommand: npm install --legacy-peer-deps
     buildCommand: npm run build
     staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
     envVars:
       - key: VITE_API_URL
-        fromService:
-          type: web
-          name: bloodchain-core
-          property: url
+        value: https://bloodchain-core.onrender.com/api/v1
       - key: VITE_SUPABASE_URL
         sync: false
       - key: VITE_SUPABASE_ANON_KEY
@@ -53,12 +54,13 @@ services:
     installCommand: npm install --legacy-peer-deps
     buildCommand: npm run build
     staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
     envVars:
       - key: VITE_API_URL
-        fromService:
-          type: web
-          name: bloodchain-core
-          property: url
+        value: https://bloodchain-core.onrender.com/api/v1
       - key: VITE_SUPABASE_URL
         sync: false
       - key: VITE_SUPABASE_ANON_KEY
@@ -72,12 +74,13 @@ services:
     installCommand: npm install --legacy-peer-deps
     buildCommand: npm run build
     staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
     envVars:
       - key: VITE_API_URL
-        fromService:
-          type: web
-          name: bloodchain-core
-          property: url
+        value: https://bloodchain-core.onrender.com/api/v1
       - key: VITE_SUPABASE_URL
         sync: false
       - key: VITE_SUPABASE_ANON_KEY
@@ -91,12 +94,13 @@ services:
     installCommand: npm install --legacy-peer-deps
     buildCommand: npm run build
     staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
     envVars:
       - key: VITE_API_URL
-        fromService:
-          type: web
-          name: bloodchain-core
-          property: url
+        value: https://bloodchain-core.onrender.com/api/v1
       - key: VITE_SUPABASE_URL
         sync: false
       - key: VITE_SUPABASE_ANON_KEY
@@ -110,12 +114,13 @@ services:
     installCommand: npm install --legacy-peer-deps
     buildCommand: npm run build
     staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
     envVars:
       - key: VITE_API_URL
-        fromService:
-          type: web
-          name: bloodchain-core
-          property: url
+        value: https://bloodchain-core.onrender.com/api/v1
       - key: VITE_SUPABASE_URL
         sync: false
       - key: VITE_SUPABASE_ANON_KEY
@@ -129,12 +134,13 @@ services:
     installCommand: npm install --legacy-peer-deps
     buildCommand: npm run build
     staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
     envVars:
       - key: VITE_API_URL
-        fromService:
-          type: web
-          name: bloodchain-core
-          property: url
+        value: https://bloodchain-core.onrender.com/api/v1
       - key: VITE_SUPABASE_URL
         sync: false
       - key: VITE_SUPABASE_ANON_KEY
@@ -148,32 +154,21 @@ services:
     installCommand: npm install --legacy-peer-deps
     buildCommand: npm run build
     staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
     envVars:
       - key: VITE_HIGH_COMMAND_URL
-        fromService:
-          type: web
-          name: bloodchain-high-command
-          property: url
+        value: https://bloodchain-high-command.onrender.com
       - key: VITE_MARS_LAB_URL
-        fromService:
-          type: web
-          name: bloodchain-mars-lab
-          property: url
+        value: https://bloodchain-mars-lab.onrender.com
       - key: VITE_VOYAGER_URL
-        fromService:
-          type: web
-          name: bloodchain-voyager
-          property: url
+        value: https://bloodchain-voyager.onrender.com
       - key: VITE_SCYTHER_URL
-        fromService:
-          type: web
-          name: bloodchain-scyther
-          property: url
+        value: https://bloodchain-scyther.onrender.com
       - key: VITE_AZURE_URL
-        fromService:
-          type: web
-          name: bloodchain-azure
-          property: url
+        value: https://bloodchain-azure.onrender.com
 
 databases:
   - name: bloodchain-db
