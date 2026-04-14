@@ -1,0 +1,14 @@
+# Local secret backups (see fabricrollback.md) — never commit
+.secrets-backup/
+
+# Hyperledger Fabric / wallet material (if added under repo for dev)
+**/wallet/
+**/fabric-network/
+**/*_sk
+**/keystore/
+**/signcerts/
+**/cacerts/
+
+# Root-level env (if used); do not add patterns that ignore *.example templates
+.env
+.env.local

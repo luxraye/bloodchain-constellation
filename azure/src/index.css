@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: theme('fontFamily.sans');
+  background-color: rgb(248 250 252); /* slate-50 */
+  color: rgb(15 23 42); /* slate-900 */
+  -webkit-font-smoothing: antialiased;
+}
+
+input,
+button,
+textarea {
+  font: inherit;
+}
