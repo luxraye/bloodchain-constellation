@@ -45,8 +45,7 @@ services:
     plan: free
     rootDir: bloodchain-core
     buildCommand: yarn install && yarn prisma generate && yarn build
-    preDeployCommand: yarn prisma migrate deploy
-    startCommand: yarn start
+    startCommand: yarn prisma migrate deploy && yarn start
     healthCheckPath: /health
     envVars:
       - key: NODE_VERSION
