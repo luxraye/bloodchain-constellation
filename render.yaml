@@ -49,7 +49,7 @@ services:
     healthCheckPath: /health
     envVars:
       - key: NODE_VERSION
-        value: "20.18.0"
+        value: "20.19.0"
       - key: NODE_ENV
         value: production
       - key: DATABASE_URL
@@ -73,7 +73,7 @@ services:
         destination: /index.html
     envVars:
       - key: NODE_VERSION
-        value: "20.18.0"
+        value: "20.19.0"
       - fromGroup: bc-vite-api
       - key: VITE_SUPABASE_URL
         sync: false
@@ -92,7 +92,7 @@ services:
         destination: /index.html
     envVars:
       - key: NODE_VERSION
-        value: "20.18.0"
+        value: "20.19.0"
       - fromGroup: bc-vite-api
       - key: VITE_SUPABASE_URL
         sync: false
@@ -111,7 +111,7 @@ services:
         destination: /index.html
     envVars:
       - key: NODE_VERSION
-        value: "20.18.0"
+        value: "20.19.0"
       - fromGroup: bc-vite-api
       - key: VITE_SUPABASE_URL
         sync: false
@@ -132,7 +132,7 @@ services:
         destination: /index.html
     envVars:
       - key: NODE_VERSION
-        value: "20.18.0"
+        value: "20.19.0"
       - fromGroup: bc-vite-api
       - key: VITE_SUPABASE_URL
         sync: false
@@ -151,7 +151,7 @@ services:
         destination: /index.html
     envVars:
       - key: NODE_VERSION
-        value: "20.18.0"
+        value: "20.19.0"
       - fromGroup: bc-vite-api
       - key: VITE_SUPABASE_URL
         sync: false
@@ -170,5 +170,5 @@ services:
         destination: /index.html
     envVars:
       - key: NODE_VERSION
-        value: "20.18.0"
+        value: "20.19.0"
       - fromGroup: bc-demo-hub-links
