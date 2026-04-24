@@ -13,26 +13,36 @@ const app = express();
 
 // ─── Global Middleware ───────────────────────────────
 
-const allowedOrigins = [
+const allowedOrigins: Array<string | RegExp> = [
   'http://localhost:5173',
   'http://localhost:5174',
   'http://localhost:5175',
   'http://localhost:5176',
   'http://localhost:5177',
-  /\.onrender\.com$/, // Accepts any Render frontend dynamically
-  /\.vercel\.app$/   // If you end up using Vercel
+  /\.onrender\.com$/,
+  /\.vercel\.app$/,
 ];
 
-app.use(cors({
+const corsOptions: cors.CorsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.some(o => typeof o === 'string' ? o === origin : o.test(origin))) {
-      callback(null, true);
-    } else {
-      callback(new Error('CORS blocked origin: ' + origin));
+      return callback(null, true);
     }
+    // Do NOT throw — throwing makes express respond without CORS headers,
+    // which the browser reports as "No 'Access-Control-Allow-Origin' header".
+    console.warn("[cors] Blocked origin:", origin);
+    return callback(null, false);
   },
-  credentials: true
-}));
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+  exposedHeaders: ["Content-Type", "Authorization"],
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+// Explicitly answer preflight for every path (defensive).
+app.options(/.*/, cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -64,14 +74,19 @@ const start = async () => {
         console.log("✅ Database connected");
 
         app.listen(PORT, () => {
+            const publicUrl =
+                process.env.PUBLIC_URL ||
+                (process.env.RENDER_EXTERNAL_URL
+                    ? process.env.RENDER_EXTERNAL_URL
+                    : `http://localhost:${PORT}`);
             console.log(`
 ╔══════════════════════════════════════════════╗
 ║         BLOODCHAIN CORE — API GATEWAY        ║
 ╠══════════════════════════════════════════════╣
-║  Status:  OPERATIONAL                        ║
-║  Port:    ${String(PORT).padEnd(35)}║
-║  API:     http://localhost:${String(PORT).padEnd(18)}║
-║  Health:  http://localhost:${String(PORT)}/health${" ".repeat(Math.max(0, 11 - String(PORT).length))}║
+║  Status:  OPERATIONAL
+║  Port:    ${PORT}
+║  API:     ${publicUrl}
+║  Health:  ${publicUrl}/health
 ╚══════════════════════════════════════════════╝
       `);
         });
