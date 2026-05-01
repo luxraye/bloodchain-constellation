@@ -12,12 +12,19 @@ function normalizeUrl(url) {
   return protocol + targetUrl
 }
 
+function appendGuestParam(url) {
+  if (!url) return ''
+  const target = new URL(normalizeUrl(url))
+  target.searchParams.set('guest', '1')
+  return target.toString()
+}
+
 export const URLS = {
-  highCommand: normalizeUrl(import.meta.env.VITE_HIGH_COMMAND_URL || 'http://localhost:5173'),
-  marsLab: normalizeUrl(import.meta.env.VITE_MARS_LAB_URL || 'http://localhost:5174'),
-  voyager: normalizeUrl(import.meta.env.VITE_VOYAGER_URL || 'http://localhost:5175'),
-  scyther: normalizeUrl(import.meta.env.VITE_SCYTHER_URL || 'http://localhost:5176'),
-  azure: normalizeUrl(import.meta.env.VITE_AZURE_URL || 'http://localhost:5177'),
+  highCommand: appendGuestParam(import.meta.env.VITE_HIGH_COMMAND_URL || 'http://localhost:5173'),
+  marsLab: appendGuestParam(import.meta.env.VITE_MARS_LAB_URL || 'http://localhost:5174'),
+  voyager: appendGuestParam(import.meta.env.VITE_VOYAGER_URL || 'http://localhost:5175'),
+  scyther: appendGuestParam(import.meta.env.VITE_SCYTHER_URL || 'http://localhost:5176'),
+  azure: appendGuestParam(import.meta.env.VITE_AZURE_URL || 'http://localhost:5177'),
 }
 
 export const APPS = [

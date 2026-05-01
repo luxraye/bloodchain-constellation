@@ -2,12 +2,19 @@ import axios from 'axios'
 import { supabase } from './supabase.js'
 import { getApiBaseUrl } from './apiBase.js'
 
+const isGuestDemo = () =>
+    typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('guest') === '1'
+
 const apiClient = axios.create({
     baseURL: getApiBaseUrl(),
     headers: { 'Content-Type': 'application/json' },
 })
 
 apiClient.interceptors.request.use(async (config) => {
+    if (isGuestDemo()) {
+        throw new Error('Guest demo mode blocks all network requests')
+    }
+
     const isBypass = import.meta.env.DEV && import.meta.env.VITE_AUTH_BYPASS === 'true'
 
     if (isBypass) {
@@ -29,7 +36,7 @@ apiClient.interceptors.response.use(
     (error) => {
         // If a 401 comes back and we're not in bypass mode, the session is gone —
         // Supabase will handle the redirect via onAuthStateChange in useAuth.
-        if (error.response?.status === 401 && !(import.meta.env.DEV && import.meta.env.VITE_AUTH_BYPASS === 'true')) {
+        if (!isGuestDemo() && error.response?.status === 401 && !(import.meta.env.DEV && import.meta.env.VITE_AUTH_BYPASS === 'true')) {
             supabase.auth.signOut()
         }
         return Promise.reject(error)

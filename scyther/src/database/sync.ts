@@ -1,7 +1,14 @@
 import { synchronize } from '@nozbe/watermelondb/sync';
 import api from '../lib/api'; // Standard interceptor injects Bearer token automatically
 
+const isGuestDemo = () =>
+  typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('guest') === '1'
+
 export async function syncWithCore(database) {
+  if (isGuestDemo()) {
+    return { database, skipped: true }
+  }
+
   await synchronize({
     database,
     pullChanges: async ({ lastPulledAt, schemaVersion, migration }) => {

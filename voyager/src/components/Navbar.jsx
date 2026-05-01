@@ -10,10 +10,15 @@ const navItems = [
 ];
 
 export default function Navbar() {
-  const { user, logout } = useAuth();
+  const { user, logout, isGuest } = useAuth();
 
   return (
-    <header className="flex h-14 shrink-0 flex-col border-b border-slate-700 bg-slate-800/80 lg:h-auto lg:py-0">
+    <header className="flex shrink-0 flex-col border-b border-slate-700 bg-slate-800/80 lg:h-auto lg:py-0">
+      {isGuest && (
+        <div className="border-b border-amber-500/20 bg-amber-500/10 px-4 py-2 text-xs font-medium text-amber-200 lg:px-8">
+          Demo Mode: dispatches and handovers are local to this tab and never hit live logistics APIs.
+        </div>
+      )}
       <div className="flex h-14 items-center justify-between px-4 lg:px-8">
         <div className="flex min-w-0 items-center gap-3">
           <img src="/branding/logo.png" alt="Bloodchain" className="h-9 w-9 shrink-0 rounded-xl object-contain" width={36} height={36} />
@@ -50,7 +55,7 @@ export default function Navbar() {
             onClick={() => logout()}
             className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-500"
           >
-            Logout
+            {isGuest ? 'Switch to Real Login' : 'Logout'}
           </button>
         </div>
       </div>

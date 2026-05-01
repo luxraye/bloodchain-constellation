@@ -2,6 +2,9 @@
 import axios from 'axios'
 import { supabase } from './supabase.js'
 
+const isGuestDemo = () =>
+    typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('guest') === '1'
+
 const normalizeUrl = (url: string) => {
     if (!url) return '';
     if (url.startsWith('http')) return url;
@@ -16,6 +19,9 @@ const apiClient = axios.create({
 })
 
 apiClient.interceptors.request.use(async (config) => {
+    if (isGuestDemo()) {
+        throw new Error('Guest demo mode blocks all network requests')
+    }
     const { data } = await supabase.auth.getSession()
     const token = data.session?.access_token
     if (!token) throw new Error('Missing active session')

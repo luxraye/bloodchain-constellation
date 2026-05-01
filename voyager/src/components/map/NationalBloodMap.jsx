@@ -6,6 +6,35 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { useQuery } from '@tanstack/react-query';
 import api from '../../lib/api';
 
+const isGuestDemo =
+    typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('guest') === '1';
+
+const DEMO_NODES = {
+    type: 'FeatureCollection',
+    features: [
+        { type: 'Feature', geometry: { type: 'Point', coordinates: [25.9086, -24.6545] }, properties: { name: 'NBTS Gaborone', type: 'BLOOD_BANK', currentInventoryLevel: 62 } },
+        { type: 'Feature', geometry: { type: 'Point', coordinates: [25.913, -24.661] }, properties: { name: 'Princess Marina Hospital', type: 'HOSPITAL', currentInventoryLevel: 18 } },
+    ],
+};
+
+const DEMO_ROUTES = {
+    type: 'FeatureCollection',
+    features: [
+        {
+            type: 'Feature',
+            geometry: { type: 'LineString', coordinates: [[25.9086, -24.6545], [25.913, -24.661]] },
+            properties: {
+                dispatchId: 'demo-route-001',
+                courierName: 'Demo Courier',
+                bloodType: 'O-',
+                status: 'IN_TRANSIT',
+                originFacility: 'NBTS Gaborone',
+                destinationFacility: 'Princess Marina Hospital',
+            },
+        },
+    ],
+};
+
 const INITIAL_VIEW_STATE = {
     longitude: 24.6849,
     latitude: -22.3285, // Botswana center
@@ -19,11 +48,13 @@ const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.j
 
 // Fetchers
 const fetchNodes = async () => {
+    if (isGuestDemo) return DEMO_NODES;
     const res = await api.get('/admin/map-nodes');
     return res.data.data;
 };
 
 const fetchRoutes = async () => {
+    if (isGuestDemo) return DEMO_ROUTES;
     const res = await api.get('/admin/transit-routes');
     return res.data.data;
 };
@@ -33,13 +64,13 @@ export default function NationalBloodMap() {
     const { data: nodesData } = useQuery({
         queryKey: ['map-nodes'],
         queryFn: fetchNodes,
-        refetchInterval: 30000,
+        refetchInterval: isGuestDemo ? false : 30000,
     });
 
     const { data: routesData } = useQuery({
         queryKey: ['transit-routes'],
         queryFn: fetchRoutes,
-        refetchInterval: 15000,
+        refetchInterval: isGuestDemo ? false : 15000,
     });
 
     // 2. Define Deck.GL Layers

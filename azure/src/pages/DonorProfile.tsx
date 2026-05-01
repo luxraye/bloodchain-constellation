@@ -5,6 +5,9 @@ import { supabase } from '../lib/supabase';
 import { DONOR_VERIFICATIONS_BUCKET, VERIFICATION_DOC_SIGNED_URL_SECONDS } from '../lib/storage.js';
 import { submitForVerification, getUserProfile } from '../services/donorService.js';
 
+const isGuestDemo = () =>
+  typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('guest') === '1'
+
 // Helper for animations
 const fadeUp = {
   hidden: { opacity: 0, y: 15 },
@@ -24,6 +27,15 @@ export default function DonorProfile({ profile, session, onProfileUpdate }: any)
       
       const file = event.target.files?.[0];
       if (!file) return;
+
+      if (isGuestDemo()) {
+        await submitForVerification(`demo://verification/${encodeURIComponent(file.name)}`);
+        const fresh = await getUserProfile();
+        if (fresh && onProfileUpdate) {
+          onProfileUpdate(fresh);
+        }
+        return;
+      }
 
       const fileExt = file.name.split('.').pop();
       const filePath = `${session.id}/omang_id_${Date.now()}.${fileExt}`;

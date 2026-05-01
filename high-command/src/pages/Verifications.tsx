@@ -2,6 +2,20 @@ import { useState, useEffect } from 'react';
 import { ShieldCheck, ShieldX, ExternalLink, Clock, User2, Droplets } from 'lucide-react';
 
 const BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000/api/v1';
+const isGuestDemo =
+    typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('guest') === '1';
+
+const DEMO_DONORS = [
+    {
+        id: 'demo-public-001',
+        name: 'Demo Citizen',
+        email: 'demo.citizen@bloodchain.local',
+        trustLevel: 2,
+        bloodType: 'O+',
+        createdAt: new Date().toISOString(),
+        verificationDocUrl: 'https://placehold.co/600x400?text=Demo+Document',
+    },
+];
 
 async function authFetch(path: string, options: RequestInit = {}) {
     const keys = Object.keys(localStorage).filter(k => k.startsWith('sb-') && k.endsWith('-auth-token'));
@@ -29,6 +43,10 @@ export default function VerificationsPage() {
     const fetchQueue = async () => {
         setLoading(true);
         try {
+            if (isGuestDemo) {
+                setDonors(DEMO_DONORS);
+                return;
+            }
             const res = await authFetch('/admin/users?role=PUBLIC');
             const json = await res.json();
             // Only show Level 2 (Silver — pending admin review)
@@ -42,6 +60,11 @@ export default function VerificationsPage() {
     const act = async (userId: string, action: string) => {
         setActing(a => ({ ...a, [userId]: action }));
         try {
+            if (isGuestDemo) {
+                setFeedback(f => ({ ...f, [userId]: action === 'verify' ? 'Demo approved locally' : 'Demo rejection recorded locally' }));
+                setDonors(d => d.filter(u => u.id !== userId));
+                return;
+            }
             const payload = action === 'verify'
                 ? { trustLevel: 3 }
                 : { trustLevel: 1, verificationDocUrl: null };

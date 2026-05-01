@@ -14,6 +14,20 @@ const DEV_USER = {
   roles: ['LAB'],
 }
 
+const GUEST_USER = {
+  id: 'guest-mars-001',
+  name: 'Demo Visitor',
+  email: 'guest@bloodchain.demo',
+  username: 'demo_guest',
+  role: 'LAB',
+  roles: ['LAB'],
+}
+
+function isGuestDemoSession() {
+  if (typeof window === 'undefined') return false
+  return new URLSearchParams(window.location.search).get('guest') === '1'
+}
+
 function parseUser(supaUser: { id: string; email?: string; app_metadata?: Record<string, string>; user_metadata?: Record<string, string> } | null) {
   if (!supaUser) return null
   const role = (supaUser.app_metadata?.role ?? 'PUBLIC').toUpperCase()
@@ -29,11 +43,13 @@ function parseUser(supaUser: { id: string; email?: string; app_metadata?: Record
 
 export function useAuth() {
   const bypass = import.meta.env.DEV && import.meta.env.VITE_AUTH_BYPASS === 'true'
-  const [user, setUser] = useState<ReturnType<typeof parseUser>>(bypass ? DEV_USER : null)
-  const [loading, setLoading] = useState(!bypass)
+  const guest = isGuestDemoSession()
+  const fallbackUser = guest ? GUEST_USER : bypass ? DEV_USER : null
+  const [user, setUser] = useState<ReturnType<typeof parseUser>>(fallbackUser)
+  const [loading, setLoading] = useState(!(bypass || guest))
 
   useEffect(() => {
-    if (bypass) return
+    if (bypass || guest) return
 
     supabase.auth.getSession().then(({ data }) => {
       setUser(parseUser(data.session?.user ?? null))
@@ -46,19 +62,29 @@ export function useAuth() {
     })
 
     return () => subscription.unsubscribe()
-  }, [bypass])
+  }, [bypass, guest])
 
   const hasRole = (...check: string[]) =>
-    bypass
+    guest
+      ? check.some(r => GUEST_USER.roles.includes(r.toUpperCase()))
+      : bypass
       ? check.some(r => DEV_USER.roles.includes(r.toUpperCase()))
       : check.some(r => r.toUpperCase() === user?.role)
 
+  const exitGuestDemo = () => {
+    if (typeof window === 'undefined') return
+    const nextUrl = new URL(window.location.href)
+    nextUrl.searchParams.delete('guest')
+    window.location.href = nextUrl.toString()
+  }
+
   return {
-    user: bypass ? DEV_USER : user,
+    user: guest ? GUEST_USER : bypass ? DEV_USER : user,
     loading,
-    roles: bypass ? DEV_USER.roles : (user ? [user.role] : []),
+    roles: guest ? GUEST_USER.roles : bypass ? DEV_USER.roles : (user ? [user.role] : []),
     hasRole,
+    isGuest: guest,
     login: (email: string, password: string) => supabase.auth.signInWithPassword({ email, password }),
-    logout: () => supabase.auth.signOut(),
+    logout: () => guest ? Promise.resolve(exitGuestDemo()) : supabase.auth.signOut(),
   }
 }

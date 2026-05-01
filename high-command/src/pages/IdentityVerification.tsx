@@ -3,6 +3,20 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useReactTable, getCoreRowModel, flexRender, type ColumnDef } from '@tanstack/react-table';
 import apiClient from '../lib/api';
 
+const isGuestDemo =
+    typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('guest') === '1';
+
+const DEMO_QUEUE = [
+    {
+        id: 'kyc-001',
+        name: 'Demo Citizen',
+        email: 'demo.citizen@bloodchain.local',
+        trustLevel: 2,
+        verificationDocUrl: 'https://placehold.co/600x400?text=Demo+Omang',
+        createdAt: new Date().toISOString(),
+    },
+];
+
 interface VerificationUser {
     id: string;
     name: string;
@@ -23,6 +37,9 @@ export default function IdentityVerification() {
     const { data: users = [], isLoading } = useQuery<VerificationUser[]>({
         queryKey: ['pendingVerifications'],
         queryFn: async () => {
+            if (isGuestDemo) {
+                return DEMO_QUEUE;
+            }
             const { data } = await apiClient.get<AdminUsersResponse>('/admin/users?limit=100');
             const queue = data.data || data.users || [];
             return queue.filter((u) => u.trustLevel === 2 && Boolean(u.verificationDocUrl));
@@ -31,6 +48,9 @@ export default function IdentityVerification() {
 
     const verifyMutation = useMutation({
         mutationFn: async ({ userId, action }: { userId: string, action: 'APPROVE' | 'REJECT' }) => {
+            if (isGuestDemo) {
+                return { userId, action };
+            }
             const trustLevel = action === 'APPROVE' ? 3 : 1;
             await apiClient.patch(`/admin/users/${userId}`, {
                 trustLevel,
