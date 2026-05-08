@@ -15,13 +15,13 @@ export const SITE = {
   contactPhoneTel: '+26772161038',
 
   projectTitle: 'Bloodchain',
-  projectSubtitle: 'National blood supply transparency prototype',
+  projectSubtitle: 'National blood supply chain management platform',
 
   organization: 'Bloodchain Botswana',
   incubationLine: 'Incubated by Unipod at the University of Botswana',
 
   prototypeNote:
-    'This is a demonstration prototype. Interfaces, data, and integrations are for showcase and testing—not production clinical use unless formally certified.',
+    'This is a live demonstration environment. Interfaces, data flows, and integrations represent the platform as built—pending formal clinical certification and regulatory sign-off before production deployment.',
 
   /** Set to your public Git URL to show a footer link; leave empty to hide. */
   repoUrl: '',

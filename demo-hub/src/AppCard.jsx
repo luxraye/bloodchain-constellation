@@ -2,94 +2,128 @@ import { QRCodeSVG } from 'qrcode.react'
 import { useState } from 'react'
 import DeviceEmulatorModal from './DeviceEmulatorModal'
 
+const STATUS_CONFIG = {
+  live: {
+    dot: 'bg-emerald-400',
+    label: 'Live',
+    labelColor: 'text-emerald-400',
+  },
+  alert: {
+    dot: 'bg-amber-400 animate-glow',
+    label: 'Alert',
+    labelColor: 'text-amber-400',
+  },
+  offline: {
+    dot: 'bg-slate-500',
+    label: 'Offline',
+    labelColor: 'text-slate-500',
+  },
+}
+
 export default function AppCard({ app }) {
   const [modalOpen, setModalOpen] = useState(false)
-
-  const statusColor = app.status === 'live'
-    ? 'bg-emerald-500'
-    : app.status === 'alert'
-      ? 'bg-amber-400 animate-pulse-slow'
-      : 'bg-slate-400'
+  const status = STATUS_CONFIG[app.status] ?? STATUS_CONFIG.offline
 
   return (
     <>
-      <div className="group animate-fade-in relative flex flex-col overflow-hidden rounded-2xl border border-sky-100 bg-white p-5 shadow-md transition-all duration-300 hover:border-sky-200 hover:shadow-lg">
+      <div
+        className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/8 bg-slate-900/70 p-5 backdrop-blur-sm transition-all duration-300 hover:border-white/16 hover:bg-slate-900/90"
+        style={{ boxShadow: `0 0 0 0 ${app.accentColor}00` }}
+      >
+        {/* Accent left border */}
         <div
-          className="absolute -right-12 -top-12 h-48 w-48 rounded-full opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100"
-          style={{ background: app.accentColor + '22' }}
+          className="absolute left-0 top-6 h-10 w-0.5 rounded-r-full transition-all duration-300 group-hover:h-16"
+          style={{ background: app.accentColor }}
         />
 
-        <div className="relative z-10 mb-4 flex items-start justify-between">
+        {/* Top row: icon + name + status */}
+        <div className="mb-4 flex items-start justify-between pl-3">
           <div className="flex items-center gap-3">
             <div
-              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-xl font-bold"
-              style={{ background: app.accentColor + '18', color: app.accentColor }}
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-black"
+              style={{
+                background: app.accentColor + '18',
+                color: app.accentColor,
+                border: `1px solid ${app.accentColor}30`,
+              }}
             >
               {app.icon}
             </div>
             <div>
-              <h3 className="text-sm font-bold tracking-wide text-slate-900">{app.name}</h3>
-              <p className="font-mono text-[11px] text-slate-500">{app.role}</p>
+              <h3 className="text-sm font-bold tracking-wide text-white">{app.name}</h3>
+              <p className="font-mono text-[10px] text-slate-500">{app.role}</p>
             </div>
           </div>
-          <div className="flex items-center gap-1.5">
-            <span className={`h-2 w-2 rounded-full ${statusColor}`} />
-            <span className="font-mono text-[10px] uppercase tracking-widest text-slate-500">{app.status}</span>
+          <div className="flex shrink-0 items-center gap-1.5 rounded-full border border-white/8 bg-white/5 px-2.5 py-1">
+            <span className={`h-1.5 w-1.5 rounded-full ${status.dot}`} />
+            <span className={`font-mono text-[10px] font-semibold uppercase tracking-widest ${status.labelColor}`}>
+              {status.label}
+            </span>
           </div>
         </div>
 
-        <p className="relative z-10 mb-4 flex-1 text-xs leading-relaxed text-slate-600">{app.description}</p>
+        {/* Description */}
+        <p className="mb-4 flex-1 pl-3 text-xs leading-relaxed text-slate-400">{app.description}</p>
 
-        <div className="relative z-10 mb-4 flex flex-wrap gap-1.5">
+        {/* Stack tags */}
+        <div className="mb-4 flex flex-wrap gap-1.5 pl-3">
           {app.stack.map((tech) => (
             <span
               key={tech}
-              className="rounded-md border border-sky-100 bg-sky-50/80 px-2 py-0.5 font-mono text-[10px] text-slate-600"
+              className="rounded-md border border-white/8 bg-white/5 px-2 py-0.5 font-mono text-[10px] text-slate-400"
             >
               {tech}
             </span>
           ))}
         </div>
 
-        <div className="relative z-10 flex items-center gap-2">
+        {/* CTA */}
+        <div className="pl-3">
           {app.deviceFrame ? (
             <button
               type="button"
               onClick={() => setModalOpen(true)}
-              className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg px-3 py-2.5 text-xs font-bold transition-all"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl border py-2.5 text-xs font-bold transition-all"
               style={{
-                background: app.accentColor + '22',
+                background: app.accentColor + '14',
                 color: app.accentColor,
-                border: `1px solid ${app.accentColor}44`,
+                borderColor: app.accentColor + '35',
               }}
             >
-              <span>⊞</span> Launch Emulator
+              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              Launch in Device Frame
             </button>
           ) : (
             <a
               href={app.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg px-3 py-2.5 text-xs font-bold transition-all"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl border py-2.5 text-xs font-bold transition-all"
               style={{
-                background: app.accentColor + '22',
+                background: app.accentColor + '14',
                 color: app.accentColor,
-                border: `1px solid ${app.accentColor}44`,
+                borderColor: app.accentColor + '35',
               }}
             >
-              <span>↗</span> Launch App
+              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+              </svg>
+              Open Application
             </a>
           )}
         </div>
 
+        {/* QR code */}
         {app.showQr && app.url && (
-          <div className="relative z-10 mt-4 flex items-center gap-4 border-t border-sky-100 pt-4">
-            <div className="shrink-0 rounded-lg border border-sky-100 bg-white p-1.5">
-              <QRCodeSVG value={app.url} size={56} bgColor="#fff" fgColor="#0f172a" level="M" />
+          <div className="mt-4 flex items-center gap-4 border-t border-white/6 pl-3 pt-4">
+            <div className="shrink-0 rounded-lg border border-white/10 bg-white p-1.5">
+              <QRCodeSVG value={app.url} size={48} bgColor="#fff" fgColor="#0f172a" level="M" />
             </div>
             <p className="text-[10px] leading-relaxed text-slate-500">
-              For a native device experience, scan with your phone camera and tap{' '}
-              <span className="font-medium text-slate-700">&quot;Add to Home Screen&quot;</span>
+              Scan with a device camera to open on mobile or{' '}
+              <span className="text-slate-400">Add to Home Screen</span>
             </p>
           </div>
         )}
