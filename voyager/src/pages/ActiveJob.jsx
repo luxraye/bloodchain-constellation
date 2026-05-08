@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, MapPin, Package, Clock, AlertTriangle, Navigation, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
+import { ArrowLeft, MapPin, Package, Clock, AlertTriangle, Navigation, ExternalLink, ChevronDown, ChevronUp, Truck, Camera, Smartphone } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import StatusBadge from '../components/StatusBadge';
 import HandoverScreen from '../components/HandoverScreen';
@@ -65,8 +65,9 @@ export default function ActiveJob() {
                 <StatusBadge status={activeJob.status} />
             </div>
 
-            {/* Content */}
-            <div className="flex-1 space-y-4 overflow-y-auto px-4 pb-24 lg:px-8 lg:pb-6">
+            {/* Content — single column on mobile, 2-column on desktop */}
+            <div className="flex-1 overflow-y-auto px-4 pb-24 lg:px-8 lg:pb-6">
+            <div className="lg:grid lg:grid-cols-2 lg:gap-6 space-y-4 lg:space-y-0">
                 {/* Route Card */}
                 <div className="glass-card p-4">
                     <div className="flex items-center gap-2 mb-3">
@@ -143,7 +144,9 @@ export default function ActiveJob() {
                             {/* In Transit */}
                             <div className={`flex items-start gap-3 ${isInTransit ? 'opacity-100' : 'opacity-40'}`}>
                                 <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${isInTransit ? 'bg-orange-500/20 animate-pulse' : 'bg-slate-700'}`}>
-                                    <span className="text-xs">{isInTransit ? '🚛' : '2'}</span>
+                                    {isInTransit
+                                        ? <Truck className="w-3.5 h-3.5 text-orange-400" />
+                                        : <span className="text-xs text-slate-500">2</span>}
                                 </div>
                                 <div>
                                     <div className="text-sm font-semibold text-white">In Transit</div>
@@ -176,17 +179,23 @@ export default function ActiveJob() {
                         {!hasPickedUp && (
                             <button
                                 onClick={() => setHandoverMode(handoverMode === 'pickup' ? null : 'pickup')}
-                                className="w-full min-h-[56px] py-5 rounded-xl bg-emerald-500/10 border-2 border-emerald-500/40 text-emerald-400 font-bold text-base hover:bg-emerald-500/20 transition-all"
+                                className="w-full min-h-[56px] py-5 rounded-xl bg-emerald-500/10 border-2 border-emerald-500/40 text-emerald-400 font-bold text-base hover:bg-emerald-500/20 transition-all flex items-center justify-center gap-2"
                             >
-                                {handoverMode === 'pickup' ? 'Cancel Pickup' : '📸 Start Pickup Scan'}
+                                {handoverMode === 'pickup'
+                                    ? 'Cancel Pickup'
+                                    : <><Camera className="w-5 h-5" /> Start Pickup Scan</>
+                                }
                             </button>
                         )}
                         {hasPickedUp && (
                             <button
                                 onClick={() => setHandoverMode(handoverMode === 'dropoff' ? null : 'dropoff')}
-                                className="w-full min-h-[56px] py-5 rounded-xl bg-orange-500/20 border-2 border-orange-500/50 text-orange-400 font-bold text-base hover:bg-orange-500/30 transition-all"
+                                className="w-full min-h-[56px] py-5 rounded-xl bg-orange-500/20 border-2 border-orange-500/50 text-orange-400 font-bold text-base hover:bg-orange-500/30 transition-all flex items-center justify-center gap-2"
                             >
-                                {handoverMode === 'dropoff' ? 'Cancel Drop-off' : '📲 Start Drop-off'}
+                                {handoverMode === 'dropoff'
+                                    ? 'Cancel Drop-off'
+                                    : <><Smartphone className="w-5 h-5" /> Start Drop-off</>
+                                }
                             </button>
                         )}
                     </div>
@@ -224,6 +233,7 @@ export default function ActiveJob() {
                         </div>
                     </div>
                 )}
+            </div>
             </div>
 
             {/* Incident FAB */}

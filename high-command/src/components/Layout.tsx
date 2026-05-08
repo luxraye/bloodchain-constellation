@@ -1,86 +1,122 @@
 import { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
+import {
+    LayoutDashboard,
+    Users,
+    BookOpen,
+    FileBarChart2,
+    ShieldCheck,
+    ChevronLeft,
+    Activity,
+} from 'lucide-react';
 import Navbar from './Navbar';
+import { useAuth } from '../hooks/useAuth';
 
 const navItems = [
-    { to: '/', label: 'Situation Room', icon: '◉' },
-    { to: '/users', label: 'Keymaster', icon: '⚿' },
-    { to: '/ledger', label: 'Master Ledger', icon: '⛓' },
-    { to: '/reports', label: 'Ministry Reporter', icon: '⚙' },
-    { to: '/verifications', label: 'Citizen Auditing', icon: '🛡' },
+    { to: '/',             label: 'Situation Room',   icon: LayoutDashboard },
+    { to: '/users',        label: 'Keymaster',        icon: Users           },
+    { to: '/ledger',       label: 'Master Ledger',    icon: BookOpen        },
+    { to: '/reports',      label: 'Ministry Reporter',icon: FileBarChart2   },
+    { to: '/verifications',label: 'Citizen Auditing', icon: ShieldCheck     },
 ];
 
 export default function Layout() {
     const [collapsed, setCollapsed] = useState(false);
+    const { user } = useAuth();
+
+    const initials = user?.name
+        ? user.name.split(' ').map((n: string) => n[0]).join('').slice(0, 2).toUpperCase()
+        : 'HC';
 
     return (
         <div className="flex h-screen bg-oled overflow-hidden font-inter">
-            {/* Sidebar */}
+            {/* ── Sidebar ── */}
             <aside
-                className={`${collapsed ? 'w-[68px]' : 'w-[260px]'
-                    } flex flex-col border-r border-surface-400/50 bg-surface-50 transition-all duration-300 ease-in-out shrink-0`}
+                className={`${collapsed ? 'w-[68px]' : 'w-[240px]'} flex flex-col border-r border-surface-400/50 bg-surface-50 transition-all duration-300 ease-in-out shrink-0`}
             >
                 {/* Logo */}
-                <div className="flex items-center gap-3 px-4 h-16 border-b border-surface-400/50">
-                    <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-command-gold to-yellow-600 flex items-center justify-center text-black font-black text-sm shrink-0">
+                <div className="flex items-center gap-3 px-4 h-14 border-b border-surface-400/50 shrink-0">
+                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-command-gold to-amber-700 flex items-center justify-center text-black font-black text-xs shrink-0">
                         HC
                     </div>
                     {!collapsed && (
-                        <div className="animate-fade-in">
-                            <h1 className="text-sm font-bold text-white tracking-wide">HIGH COMMAND</h1>
-                            <p className="text-[10px] text-neutral-500 font-mono tracking-widest">BLOODCHAIN ADMIN</p>
+                        <div className="animate-fade-in min-w-0">
+                            <h1 className="text-xs font-bold text-white tracking-widest uppercase">High Command</h1>
+                            <p className="text-[9px] text-neutral-600 font-mono tracking-widest truncate">BLOODCHAIN ADMIN</p>
                         </div>
                     )}
                 </div>
 
-                {/* Nav Items */}
-                <nav className="flex-1 py-4 px-2 space-y-1">
-                    {navItems.map((item) => (
+                {/* Nav */}
+                <nav className="flex-1 py-3 px-2 space-y-0.5 overflow-y-auto">
+                    {navItems.map(({ to, label, icon: Icon }) => (
                         <NavLink
-                            key={item.to}
-                            to={item.to}
-                            end={item.to === '/'}
+                            key={to}
+                            to={to}
+                            end={to === '/'}
                             className={({ isActive }) =>
-                                `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 group ${isActive
-                                    ? 'bg-command-gold/10 text-command-gold border border-command-gold/20'
-                                    : 'text-neutral-500 hover:text-white hover:bg-surface-200 border border-transparent'
+                                `flex items-center gap-3 px-2.5 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 group ${
+                                    isActive
+                                        ? 'bg-command-gold/10 text-command-gold border border-command-gold/20'
+                                        : 'text-neutral-500 hover:text-white hover:bg-surface-200 border border-transparent'
                                 }`
                             }
                         >
-                            <span className="text-lg shrink-0 w-6 text-center">{item.icon}</span>
-                            {!collapsed && <span className="animate-fade-in">{item.label}</span>}
+                            {({ isActive }) => (
+                                <>
+                                    <Icon
+                                        size={16}
+                                        className={`shrink-0 ${isActive ? 'text-command-gold' : 'text-neutral-600 group-hover:text-neutral-300'}`}
+                                    />
+                                    {!collapsed && (
+                                        <span className="animate-fade-in truncate text-[13px]">{label}</span>
+                                    )}
+                                </>
+                            )}
                         </NavLink>
                     ))}
                 </nav>
 
-                {/* Collapse Toggle */}
-                <div className="p-3 border-t border-surface-400/50">
-                    <button
-                        onClick={() => setCollapsed(!collapsed)}
-                        className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-neutral-500 hover:text-white hover:bg-surface-200 transition-all text-sm"
-                    >
-                        <span className={`transition-transform duration-300 ${collapsed ? 'rotate-180' : ''}`}>◂</span>
-                        {!collapsed && <span className="text-xs">Collapse</span>}
-                    </button>
-                </div>
-
-                {/* System Status */}
+                {/* System status */}
                 {!collapsed && (
-                    <div className="p-4 border-t border-surface-400/50 animate-fade-in">
-                        <div className="flex items-center gap-2 mb-2">
-                            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                            <span className="text-xs text-neutral-400">System Online</span>
+                    <div className="px-4 py-3 border-t border-surface-400/50 animate-fade-in">
+                        <div className="flex items-center gap-2">
+                            <Activity size={11} className="text-emerald-500" />
+                            <span className="text-[10px] text-neutral-500 font-mono">System online · v2.4.0</span>
                         </div>
-                        <p className="text-[10px] text-neutral-600 font-mono">v2.4.0 · Gaborone Node</p>
                     </div>
                 )}
+
+                {/* User strip + collapse toggle */}
+                <div className="border-t border-surface-400/50 p-2 shrink-0">
+                    {!collapsed && user && (
+                        <div className="flex items-center gap-2.5 px-2 py-2 mb-1 animate-fade-in">
+                            <div className="w-7 h-7 rounded-full bg-command-gold/15 border border-command-gold/25 flex items-center justify-center text-[10px] font-bold text-command-gold shrink-0">
+                                {initials}
+                            </div>
+                            <div className="min-w-0">
+                                <p className="text-xs font-medium text-neutral-200 truncate">{user.name}</p>
+                                <p className="text-[10px] text-neutral-600 font-mono truncate">{user.role}</p>
+                            </div>
+                        </div>
+                    )}
+                    <button
+                        onClick={() => setCollapsed(!collapsed)}
+                        className="w-full flex items-center justify-center gap-2 px-2.5 py-2 rounded-lg text-neutral-600 hover:text-neutral-300 hover:bg-surface-200 transition-all text-sm"
+                        title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+                    >
+                        <ChevronLeft
+                            size={15}
+                            className={`transition-transform duration-300 ${collapsed ? 'rotate-180' : ''}`}
+                        />
+                        {!collapsed && <span className="text-[11px]">Collapse</span>}
+                    </button>
+                </div>
             </aside>
 
-            {/* Main Content */}
+            {/* ── Main ── */}
             <main className="flex-1 flex flex-col overflow-hidden">
                 <Navbar />
-
-                {/* Page Content */}
                 <div className="flex-1 overflow-auto p-6">
                     <Outlet />
                 </div>

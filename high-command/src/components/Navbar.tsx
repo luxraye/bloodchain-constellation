@@ -1,3 +1,4 @@
+import { LogOut } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 
 export default function Navbar() {
@@ -26,9 +27,10 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => logout()}
-            className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white text-sm font-medium transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-neutral-500 hover:text-white hover:bg-surface-200 border border-transparent hover:border-surface-400/60 transition-all text-xs font-medium"
           >
-            {isGuest ? 'Switch to Real Login' : 'Logout'}
+            <LogOut size={13} />
+            {isGuest ? 'Exit Demo' : 'Sign Out'}
           </button>
         </div>
       </div>

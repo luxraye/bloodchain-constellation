@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { ShieldCheck } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useReactTable, getCoreRowModel, flexRender, type ColumnDef } from '@tanstack/react-table';
 import apiClient from '../lib/api';
@@ -117,7 +118,7 @@ export default function IdentityVerification() {
                             <div className="p-6 text-center text-sm text-neutral-500">Loading queue...</div>
                         ) : users.length === 0 ? (
                             <div className="flex flex-col items-center justify-center p-12 text-center text-sm text-neutral-500 h-full">
-                                <span className="text-4xl mb-4">🛡️</span>
+                                <ShieldCheck size={32} className="text-neutral-600 mb-4" />
                                 <p>Queue is completely empty.</p>
                                 <p className="text-xs mt-1">All Level 2 citizens have been audited.</p>
                             </div>

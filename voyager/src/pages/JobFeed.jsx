@@ -30,7 +30,7 @@ export default function JobFeed() {
     return (
         <div className="h-full flex flex-col">
             {/* Header */}
-            <div className="px-4 pt-6 pb-4">
+            <div className="px-4 pt-6 pb-4 lg:px-8">
                 <div className="flex items-center justify-between mb-4">
                     <div>
                         <div className="flex items-center gap-2 mb-1">
@@ -50,7 +50,7 @@ export default function JobFeed() {
                 </div>
 
                 {/* Stats Row */}
-                <div className="grid grid-cols-3 gap-2 mb-4">
+                <div className="grid grid-cols-3 lg:grid-cols-4 gap-2 mb-4">
                     <div className="glass-card px-3 py-2 text-center">
                         <div className="text-lg font-bold text-white">{stats.pending}</div>
                         <div className="text-[10px] text-slate-500 uppercase tracking-wider">Pending</div>
@@ -62,6 +62,10 @@ export default function JobFeed() {
                     <div className="glass-card px-3 py-2 text-center">
                         <div className="text-lg font-bold text-red-400">{stats.flagged}</div>
                         <div className="text-[10px] text-slate-500 uppercase tracking-wider">Flagged</div>
+                    </div>
+                    <div className="glass-card px-3 py-2 text-center hidden lg:block">
+                        <div className="text-lg font-bold text-slate-300">{stats.total}</div>
+                        <div className="text-[10px] text-slate-500 uppercase tracking-wider">Total Jobs</div>
                     </div>
                 </div>
 
@@ -83,7 +87,7 @@ export default function JobFeed() {
             </div>
 
             {/* Job List */}
-            <div className="flex-1 space-y-3 overflow-y-auto px-4 pb-24 lg:px-8 lg:pb-6">
+            <div className="flex-1 overflow-y-auto px-4 pb-24 lg:px-8 lg:pb-6">
                 {jobsLoading ? (
                     <div className="flex flex-col items-center justify-center py-16 text-center">
                         <div className="w-10 h-10 border-2 border-orange-500/40 border-t-orange-400 rounded-full animate-spin mb-3" />
@@ -105,11 +109,13 @@ export default function JobFeed() {
                         </p>
                     </div>
                 ) : (
-                    filteredJobs.map((job, i) => (
-                        <div key={job.id} style={{ animationDelay: `${i * 60}ms` }}>
-                            <JobCard job={job} />
-                        </div>
-                    ))
+                    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
+                        {filteredJobs.map((job, i) => (
+                            <div key={job.id} style={{ animationDelay: `${i * 60}ms` }}>
+                                <JobCard job={job} />
+                            </div>
+                        ))}
+                    </div>
                 )}
             </div>
         </div>

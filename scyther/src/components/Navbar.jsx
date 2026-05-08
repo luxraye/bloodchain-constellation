@@ -1,6 +1,6 @@
 import { useAuth } from '../hooks/useAuth';
 import { useNetwork } from '../hooks/useNetwork';
-import { Wifi, WifiOff, RefreshCw } from 'lucide-react';
+import { Wifi, WifiOff, RefreshCw, LogOut } from 'lucide-react';
 
 export default function Navbar() {
   const { user, logout, isGuest } = useAuth();
@@ -52,9 +52,10 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => logout()}
-            className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white text-sm font-medium transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-900 hover:bg-slate-100 border border-transparent hover:border-slate-200 transition-all text-xs font-medium"
           >
-            {isGuest ? 'Switch to Real Login' : 'Logout'}
+            <LogOut size={13} />
+            {isGuest ? 'Exit Demo' : 'Sign Out'}
           </button>
         </div>
       </div>

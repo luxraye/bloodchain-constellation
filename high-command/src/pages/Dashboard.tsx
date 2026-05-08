@@ -3,6 +3,7 @@ import { adminService } from '../services/adminService';
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
 import { DivIcon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { Droplets, Truck, FlaskConical, AlertTriangle, Globe } from 'lucide-react';
 import WastageTrends from '../components/analytics/WastageTrends';
 
 const hospitalIcon = new DivIcon({
@@ -67,7 +68,8 @@ export default function Dashboard() {
             color: 'text-emerald-400',
             border: 'border-emerald-500/20',
             glow: 'shadow-emerald-500/5',
-            icon: '🩸',
+            Icon: Droplets,
+            iconColor: 'text-emerald-500',
         },
         {
             label: 'Active Logistics',
@@ -76,7 +78,8 @@ export default function Dashboard() {
             color: 'text-blue-400',
             border: 'border-blue-500/20',
             glow: 'shadow-blue-500/5',
-            icon: '🚐',
+            Icon: Truck,
+            iconColor: 'text-blue-500',
         },
         {
             label: 'Testing Queue',
@@ -85,7 +88,8 @@ export default function Dashboard() {
             color: 'text-command-gold',
             border: 'border-command-gold/20',
             glow: 'shadow-yellow-500/5',
-            icon: '🧬',
+            Icon: FlaskConical,
+            iconColor: 'text-command-gold',
         },
         {
             label: 'Wastage Rate',
@@ -94,7 +98,8 @@ export default function Dashboard() {
             color: 'text-command-red',
             border: 'border-command-red/20',
             glow: 'shadow-red-500/5',
-            icon: '⚠',
+            Icon: AlertTriangle,
+            iconColor: 'text-command-red',
             alert: stats && stats.wastageRate > 3,
         },
     ];
@@ -105,7 +110,7 @@ export default function Dashboard() {
             <div className="flex items-center justify-between">
                 <div>
                     <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                        <span className="text-command-gold">◉</span> Situation Room
+                        <Globe size={18} className="text-command-gold" /> Situation Room
                     </h2>
                     <p className="text-xs text-neutral-500 mt-1 font-mono">REAL-TIME NATIONAL OVERVIEW</p>
                 </div>
@@ -129,7 +134,7 @@ export default function Dashboard() {
                         >
                             <div className="flex items-center justify-between mb-3">
                                 <span className="text-xs text-neutral-500 font-semibold tracking-wider uppercase">{t.label}</span>
-                                <span className="text-lg">{t.icon}</span>
+                                <t.Icon size={16} className={t.iconColor} />
                             </div>
                             <div className={`text-3xl font-bold ${t.color} font-mono`}>
                                 {t.value ?? '—'}
@@ -237,7 +242,7 @@ export default function Dashboard() {
                 <div className="divide-y divide-surface-400/30">
                     {!routes?.length ? (
                         <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
-                            <span className="text-3xl opacity-50 mb-2">🚐</span>
+                            <Truck size={28} className="text-neutral-600 mb-3" />
                             <p className="text-sm text-neutral-400 font-medium">No active courier jobs at this time</p>
                             <p className="text-xs text-neutral-500 mt-1">Transit routes will appear here when Voyager drivers accept jobs.</p>
                         </div>
@@ -245,7 +250,9 @@ export default function Dashboard() {
                         routes.map((route) => (
                             <div key={route.id} className="flex items-center justify-between px-5 py-3 hover:bg-surface-100/50 transition-colors">
                                 <div className="flex items-center gap-4">
-                                    <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 text-sm">🚐</div>
+                                    <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center">
+                                        <Truck size={14} className="text-blue-400" />
+                                    </div>
                                     <div>
                                         <p className="text-sm text-white font-medium">{route.courierName}</p>
                                         <p className="text-[11px] text-neutral-500 font-mono">{route.id.slice(0,8)}</p>

@@ -5,6 +5,7 @@
  */
 
 import { useState, useMemo } from 'react';
+import { Link2 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import {
     useReactTable,
@@ -130,7 +131,7 @@ export default function MasterLedger() {
             <div className="flex items-center justify-between">
                 <div>
                     <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                        <span className="text-command-gold">⛓</span> Master Ledger
+                        <Link2 size={18} className="text-command-gold" /> Master Ledger
                     </h2>
                     <p className="text-xs text-neutral-500 mt-1 font-mono">
                         IMMUTABLE AUDIT TRAIL — SERVER-SIDE PAGINATION
@@ -206,7 +207,7 @@ export default function MasterLedger() {
                                         <tr>
                                             <td colSpan={columns.length} className="px-4 py-16 text-center">
                                                 <div className="flex flex-col items-center gap-3 text-neutral-500">
-                                                    <span className="text-4xl opacity-60">⛓</span>
+                                                    <Link2 size={28} className="text-neutral-600" />
                                                     <p className="text-sm font-medium text-neutral-400">No audit entries yet</p>
                                                     <p className="text-xs max-w-xs">Once actions are performed in bloodchain-core, they will appear here.</p>
                                                 </div>

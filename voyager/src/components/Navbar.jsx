@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { ClipboardList, Map, Truck, User } from 'lucide-react';
+import { ClipboardList, Map, Truck, User, LogOut } from 'lucide-react';
 
 const navItems = [
   { to: '/', icon: ClipboardList, label: 'Jobs' },
@@ -53,9 +53,10 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => logout()}
-            className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-500"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 border border-transparent hover:border-slate-600 transition-all text-xs font-medium"
           >
-            {isGuest ? 'Switch to Real Login' : 'Logout'}
+            <LogOut size={13} />
+            {isGuest ? 'Exit Demo' : 'Sign Out'}
           </button>
         </div>
       </div>

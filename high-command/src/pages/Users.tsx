@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { Trash2, UserPlus, KeyRound } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
     useReactTable,
@@ -23,7 +24,7 @@ function RoleBadge({ role }: { role: string }) {
         ADMIN: 'bg-command-gold/10 text-command-gold ring-1 ring-command-gold/20',
         MEDICAL: 'bg-emerald-500/10 text-emerald-400 ring-1 ring-emerald-500/20',
         LAB: 'bg-amber-500/10 text-amber-400 ring-1 ring-amber-500/20',
-        TRANSIT: 'bg-amber-500/10 text-amber-300 ring-1 ring-amber-400/20',
+        TRANSIT: 'bg-violet-500/10 text-violet-400 ring-1 ring-violet-500/20',
         PUBLIC: 'bg-neutral-500/10 text-neutral-400 ring-1 ring-neutral-500/20',
     };
     return (
@@ -212,7 +213,9 @@ function CreateUserModal({ onClose, onSuccess }: { onClose: () => void; onSucces
                                     Provisioning...
                                 </span>
                             ) : (
-                                '⚿ Provision User'
+                                <span className="flex items-center gap-1.5">
+                                    <UserPlus size={14} /> Provision User
+                                </span>
                             )}
                         </button>
                     </div>
@@ -356,11 +359,11 @@ export default function Users() {
                     }
                     return (
                         <button
-                            className="text-neutral-600 hover:text-red-400 transition-colors text-base leading-none px-2 py-1"
+                            className="text-neutral-600 hover:text-red-400 transition-colors px-2 py-1 rounded"
                             title="Remove user"
                             onClick={() => setConfirmDeleteId(id)}
                         >
-                            ⊘
+                            <Trash2 size={13} />
                         </button>
                     );
                 },
@@ -395,7 +398,7 @@ export default function Users() {
             <div className="flex items-center justify-between">
                 <div>
                     <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                        <span className="text-command-gold">⚿</span> Keymaster
+                        <KeyRound size={18} className="text-command-gold" /> Keymaster
                     </h2>
                     <p className="text-xs text-neutral-500 mt-1 font-mono">USER PROVISIONING & ACCESS CONTROL</p>
                 </div>

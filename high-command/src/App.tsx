@@ -1,4 +1,5 @@
 import { lazy, Suspense } from 'react';
+import { Lock } from 'lucide-react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './lib/queryClient';
@@ -30,7 +31,7 @@ function AccessDenied() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-black p-6 text-center">
       <div className="w-14 h-14 rounded-full bg-red-950 flex items-center justify-center mb-2">
-        <span className="text-2xl">🔒</span>
+        <Lock size={22} className="text-red-400" />
       </div>
       <h1 className="text-xl font-bold text-neutral-100">Access Denied</h1>
       <p className="text-sm text-neutral-400 max-w-sm">

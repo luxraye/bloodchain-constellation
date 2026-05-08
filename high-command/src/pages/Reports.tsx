@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { adminService } from '../services/adminService';
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from 'recharts';
 import jsPDF from 'jspdf';
+import { FileDown, FileBarChart2 } from 'lucide-react';
 import WastageTrends from '../components/analytics/WastageTrends';
 
 const PIE_COLORS = ['#10B981', '#3B82F6', '#EAB308', '#DC2626', '#8B5CF6', '#EC4899'];
@@ -175,7 +176,7 @@ export default function Reports() {
             <div className="flex items-center justify-between">
                 <div>
                     <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                        <span className="text-command-gold">⚙</span> Ministry Reporter
+                        <FileBarChart2 size={18} className="text-command-gold" /> Ministry Reporter
                     </h2>
                     <p className="text-xs text-neutral-500 mt-1 font-mono">GENERATE OFFICIAL GOVERNMENT REPORTS</p>
                 </div>
@@ -219,7 +220,9 @@ export default function Reports() {
                                     Compiling Report...
                                 </span>
                             ) : (
-                                '📄 Generate Monthly Report'
+                                <span className="flex items-center justify-center gap-2">
+                                    <FileDown size={15} /> Generate Monthly Report
+                                </span>
                             )}
                         </button>
 

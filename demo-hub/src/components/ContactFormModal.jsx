@@ -62,7 +62,7 @@ export default function ContactFormModal({ isOpen, onClose, inquiryType = 'gener
       onClick={handleClose}
     >
       <div
-        className="relative w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-slate-900 shadow-2xl"
+        className="relative w-full max-w-md max-h-[90vh] flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-900 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Accent top bar */}
@@ -95,7 +95,7 @@ export default function ContactFormModal({ isOpen, onClose, inquiryType = 'gener
 
         {status === 'success' ? (
           /* ── Success state ── */
-          <div className="flex flex-col items-center gap-4 px-6 py-10 text-center">
+          <div className="overflow-y-auto flex flex-col items-center gap-4 px-6 py-10 text-center">
             <div className="flex h-14 w-14 items-center justify-center rounded-full border border-emerald-500/30 bg-emerald-500/10">
               <svg className="h-7 w-7 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
@@ -117,7 +117,7 @@ export default function ContactFormModal({ isOpen, onClose, inquiryType = 'gener
           </div>
         ) : (
           /* ── Form ── */
-          <form onSubmit={handleSubmit} className="px-6 pb-6 pt-4 space-y-4">
+          <form onSubmit={handleSubmit} className="overflow-y-auto px-6 pb-6 pt-4 space-y-4">
             {FIELDS.map(({ id, label, type, required, placeholder }) => (
               <div key={id}>
                 <label htmlFor={id} className="mb-1.5 block font-mono text-[11px] font-medium uppercase tracking-wider text-slate-400">
